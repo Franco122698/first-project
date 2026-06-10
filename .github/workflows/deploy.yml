@@ -1,0 +1,36 @@
+name: Multi-Environment Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - sandbox
+      - test
+      - develop
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Determine Target Folder
+        id: env-name
+        run: |
+          if [ "${{ github.ref_ref_name }}" = "main" ]; then
+            echo "dir=." >> $GITHUB_OUTPUT
+          else
+            echo "dir=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy Live to GitHub Pages Folder
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages # The dedicated branch GitHub Pages will read from
+          folder: .        # Deploy our current files (index.html, script.js)
+          target-folder: ${{ steps.env-name.outputs.dir }} # Chooses root, test, develop, etc.
+          clean: false     # Prevents environments from wiping each other out
