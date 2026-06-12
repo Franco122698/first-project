@@ -68,9 +68,28 @@
       a:active {
         transform: translateY(0);
       }
+
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        font-size: 1.5em;
+        font-weight: 600;
+        color: #333;
+      }
+
+      body {
+        padding-top: 70px;
+      }
     </style>
   </head>
   <body>
+    <header>My Website</header>
     <div class="container">
       <h1>Hello World!!!</h1>
       <p>This is a simple HTML file.</p>
